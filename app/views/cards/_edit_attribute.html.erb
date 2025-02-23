@@ -1,0 +1,7 @@
+<%= form_with model: card, url: update_attribute_card_path(card, attribute:) do |f| %>
+  <% if %w(condition card_type color rarity).include? attribute.to_s %>
+    <%= render "#{attribute}_field", f: %>
+  <% else %>
+    <%= f.text_field attribute %>
+  <% end %>
+<% end %>

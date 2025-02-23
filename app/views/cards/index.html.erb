@@ -1,0 +1,54 @@
+<div class="text-3xl font-bold underline">Card Collection</div>
+
+<div id="card_catalog" class="flex flex-col relative">
+  <div id="controls" class="flex justify-between mb-4">
+    <div>
+      <%= link_to "New card", new_card_path  if authenticated? %>
+      <button id="import_cards" class="bg-green-500 text-white px-4 py-2 rounded">Import Cards</button>
+      <button id="export_cards" class="bg-yellow-500 text-white px-4 py-2 rounded">Export Cards</button>
+      <button id="print_cards" class="bg-purple-500 text-white px-4 py-2 rounded">Print Cards</button>
+      <button id="filter_cards" class="bg-red-500 text-white px-4 py-2 rounded">Filter Cards</button>
+      <button id="clear_filters" class="bg-gray-500 text-white px-4 py-2 rounded">Clear Filters</button>
+    </div>
+  </div>
+  <%= render "search_gatherer" %>
+
+  <table id="card_collection" class="table-auto w-full">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Condition</th>
+        <th>Description</th>
+        <th>Card Type</th>
+        <th>Color</th>
+        <th>Mana</th>
+        <th>Rarity</th>
+        <th>Price</th>
+        <th>Set</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cards.each do |card| %>
+        <tr>
+          <td><%= render "attribute", card:, attribute: :quantity %></td>
+          <td><%= card.name %></td>
+          <td><%= render "attribute", card:, attribute: :condition %></td>
+          <td><%= render "attribute", card:, attribute: :description %></td>
+          <td><%= render "attribute", card:, attribute: :card_type %></td>
+          <td><%= render "attribute", card:, attribute: :color %></td>
+          <td><%= card.mana %></td>
+          <td><%= render "attribute", card:, attribute: :rarity %></td>
+          <td><%= render "attribute", card:, attribute: :price %></td>
+          <td><%= card.card_set_id %></td>
+          <td>
+            <button class="edit_card" data-id="<%= card.id %>">Edit</button>
+            <button class="delete_card" data-id="<%= card.id %>">Delete</button>
+            <%= link_to card.name, card %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

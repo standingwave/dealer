@@ -1,0 +1,140 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+ body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 1rem;
+  }
+  
+  nav {
+    justify-content: flex-end;
+    display: flex;
+    font-size: 0.875em;
+    gap: 0.5rem;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  nav a {
+    display: inline-block;
+  }
+  
+  main {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+  
+  .notice {
+    color: green;
+  }
+  
+  section.product {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+  }
+  
+  section.product img {
+    border-radius: 8px;
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+  
+  input {  }
+
+  #card_entry_form { padding: 10px; float: left; }
+  .card_section { padding: 5px; float: left; }
+
+  #gatherer_results { display:none; max-height: 100px; border: 1px dotted; font-size: 12px; overflow: auto; }
+  #gatherer_results li { border-bottom: 1px solid #aaa; }
+  .result_item { cursor: pointer; padding: 3px; }
+
+  .card_div { padding: 3px 0; }
+
+  .img_span { margin-left: 3px; vertical-align: middle; }
+  .add_img { vertical-align: middle; }
+
+  .mana img { width: 18px; vertical-align: middle; }
+  .mana div { padding: 2px 0; }
+  .mana input { margin-right: 3px; }
+  .colorless { width: 18px; height: 18px; background-color: #aaa; }
+
+  #create_card { cursor: pointer; }
+
+  #gatherer_display { float: left; padding: 10px; position: relative; }
+  #gatherer_display div.image { float: left; }
+  #gatherer_display img { height: 200px; }
+
+  #gatherer_display div.text { margin-left: 10px; float: left; }
+  #gatherer_card_saved { 
+    font-size: 42px;
+    color: green;
+    background: none repeat scroll 0 0 #FFF;
+    opacity: 0.8;
+    height: 200px;
+    position: absolute;
+    width: 400px;
+    display: none;
+  }
+  #gatherer_card_saved p { display: block; height: 200px; line-height: 200px; text-align: center; }
+
+  .loading { display: none; }
+  .loading img { padding: 0 0 0 3px; vertical-align: middle; height: 15px; }
+
+  a { color: #4f6b72; }
+  a:link {   }
+  a:visited {   }
+  a:hover { color: #C1DAD7; }
+
+  a img { vertical-align: middle; margin-bottom: 2px; }
+
+  #cards { padding: 0 10px; }
+
+  #card_collection_header { height: 20px; line-height: 20px; padding-bottom: 10px; }
+  #card_collection_header input { margin-right: 5px; }
+
+  #card_collection {
+    border-left: 1px solid #C1DAD7;
+    border-collapse:collapse;
+    width: 1000px;
+    overflow: auto;
+    padding: 3px;
+    background-color: #fff;
+  }
+
+  #card_collection th {
+    font: bold 10px/22px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #4f6b72;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align:center;
+    padding: 8px 12px 4px 12px;
+    background-color: #CAE8EA;
+    vertical-align:middle;
+  }
+          
+  #card_collection tr { border-bottom: 1px solid gray; font-size: 12px; padding: 0 5px; }
+
+  #card_collection td {
+    font: normal 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    padding: 6px 12px 6px 12px;
+    color: #4f6b72;
+    text-align:center;
+  }
+
+  #card_collection input { width: 50px; font-size: 8px; }
+  .list_selected { background-color: #9BB385; }
+  .list_hover { background-color: #FBF5D3; }

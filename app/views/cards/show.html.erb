@@ -1,0 +1,17 @@
+<p><%= link_to "Back", cards_path %></p>
+
+<section class="product">
+  <div>One day I'll be an image!</div>
+  <section class="product-info">
+    <% cache @card do %>
+      <h1><%= @card.name %></h1>
+      <%= @card.description %>
+    <% end %>
+
+    <%= link_to "Back", cards_path %>
+    <% if authenticated? %>
+        <%= link_to "Edit", edit_card_path(@card) %>
+        <%= button_to "Delete", @card, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+    <% end %>
+  </section>
+</section>

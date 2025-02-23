@@ -1,0 +1,13 @@
+<div id="card_search_container" class="flex flex-col mb-4" data-controller="search">
+  <div class="flex items-center mr-2">
+    <input 
+      type="type" id="card_search" placeholder="Search cards"
+      data-action="keydown.enter->search#load" data-search-target="searchText"
+      class="border border-gray-300 rounded shadow-sm p-2"
+    />
+    <%= icon "magnifying-glass" %> <a href="#" data-action="click->search#load" class="ml-2">Search</a>
+  </div>
+  <div id="search_results" class="flex border border-gray-300 rounded shadow-lg mt-2 w-full">
+    <ul id="search_results_list" class="list-none m-0 p-0" data-search-target="searchResults" hidden></ul>
+  </div>
+</div>

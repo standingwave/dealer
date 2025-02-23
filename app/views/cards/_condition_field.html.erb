@@ -1,0 +1,6 @@
+<%= turbo_frame_tag dom_id(card) do %>
+  <%= form_with model: card, url: update_attribute_card_path(card, :condition, format: :turbo_stream), method: :patch,
+          html: { data: { controller: "buttonless" } } do |form| %>
+    <%= form.select :condition, Card::CONDITIONS.collect { |p| [p, p] }, { include_blank: true } %>
+  <% end %>
+<% end %>

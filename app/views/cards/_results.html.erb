@@ -1,0 +1,7 @@
+<ul id="search-results" class="search__results" data-controller="search-results" data-search-results-current-class="search__result--current">
+  <% if @cards.any? %>
+    <%= render partial: "person", collection: @cards %>
+  <% else %>
+    <li class="search__result search__result--empty">No results</li>
+  <% end %>
+</ul>
