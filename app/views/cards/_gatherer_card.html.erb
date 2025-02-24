@@ -1,0 +1,27 @@
+<div class="flex gap-6 p-7 flex-row md:gap-8 rounded-2xl">
+  <div>
+    <%= image_tag "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=#{params[:gatherer_id]}&type=card" %>
+  </div>
+  <div class="flex mb-4">
+    <ul>
+      <li>Name: <%= @gatherer_card[:name] %></li>
+      <li>Rarity: <%= @gatherer_card[:rarity] %></li>
+      <li>
+        Set: 
+        <% if @gatherer_card[:other_sets].any? %>
+          <select name="gatherer_set">
+            <option value="<%= @gatherer_card[:set] %>"><%= @gatherer_card[:set] %></option>
+            <% @gatherer_card[:other_sets].each do |set| %>
+              <option value="<%= set[:id] %>"><%= set[:description] %></option>
+            <% end %>
+          </select>
+        <% else %>
+          <%= @gatherer_card[:set] %>
+        <% end %>
+      </li>
+      <li>Spell Type: <%= @gatherer_card[:creature] %></li>
+    </ul>
+  </div>
+  <div id="gatherer_card_saved">
+    <p>SAVED</p>
+  </div>

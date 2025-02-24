@@ -11,7 +11,9 @@
       <button id="clear_filters" class="bg-gray-500 text-white px-4 py-2 rounded">Clear Filters</button>
     </div>
   </div>
-  <%= render "search_gatherer" %>
+  <%= turbo_frame_tag "card_search" do %>
+    <%= render "search_gatherer" %>
+  <% end %>
 
   <table id="card_collection" class="table-auto w-full">
     <thead>

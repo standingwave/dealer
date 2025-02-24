@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       get "edit_attribute/:attribute", action: :edit_attribute, as: :edit_attribute
       patch "update_attribute/:attribute", action: :update_attribute, as: :update_attribute
     end
+    collection do
+      get ":gatherer_id/details", action: :details, as: :details
+    end
   end
   
   resources :card_sets

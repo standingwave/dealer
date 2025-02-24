@@ -3,6 +3,42 @@ class CardsController < ApplicationController
 
   before_action :set_card, only: %i[ show edit update destroy ]
 
+  def details
+    require 'mechanize'
+      
+    @gatherer_card = {}
+
+    store = OpenSSL::X509::Store.new
+    store.add_file '/usr/local/etc/openssl@3/cert.pem'
+    a = Mechanize.new
+    a.verify_mode= OpenSSL::SSL::VERIFY_NONE
+
+    a.cert_store = store
+
+    page = a.get("https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{params[:gatherer_id]}")
+
+    # get the card name
+    
+    @gatherer_card[:name] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow > div.value").text
+    @gatherer_card[:creature] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow > .value").children.first.text
+    @gatherer_card[:rarity] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow > div.value span").children.first.text
+    @gatherer_card[:set] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol> a:nth-child(2)").children.first.text
+    
+    # list of other sets this card has appeared in.
+    #   the anchor has the id and the image within the anchor has the set name
+    other_sets = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsValue > div a")
+    @gatherer_card[:other_sets] = other_sets.any? ? other_sets.collect{|s| { id: s.attr('href').split('=')[1], description: s.children.first.attr('title') } } : []
+    
+    logger.info @gatherer_card.inspect
+    
+    # render partial: 'gatherer_card', locals: {gatherer_card: @gatherer_card}
+    render turbo_stream: turbo_stream.update(
+      'card_search',
+      partial: "gatherer_card",
+      locals: {gatherer_card: @gatherer_card}
+    )
+  end
+
   def index
     @cards = Card.all
   end
