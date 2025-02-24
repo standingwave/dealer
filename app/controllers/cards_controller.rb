@@ -17,12 +17,16 @@ class CardsController < ApplicationController
 
     page = a.get("https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{params[:gatherer_id]}")
 
-    # get the card name
+    @gatherer_card[:id] = params[:gatherer_id]
+    @gatherer_card[:image] = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=#{@gatherer_card[:id]}&type=card"
     
     @gatherer_card[:name] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow > div.value").text
-    @gatherer_card[:creature] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow > .value").children.first.text
-    @gatherer_card[:rarity] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow > div.value span").children.first.text
-    @gatherer_card[:set] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol> a:nth-child(2)").children.first.text
+    @gatherer_card[:card_type] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow > .value").children.first.text
+    @gatherer_card[:rarity] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow div.value span").children.first.text
+
+    set = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol > a").first
+    Rails.logger.info "set=#{set.inspect}"
+    @gatherer_card[:set] = { id: set.attr('href').split('=')[1], description: set.children.first.attr('title') }
     
     # list of other sets this card has appeared in.
     #   the anchor has the id and the image within the anchor has the set name
@@ -31,7 +35,6 @@ class CardsController < ApplicationController
     
     logger.info @gatherer_card.inspect
     
-    # render partial: 'gatherer_card', locals: {gatherer_card: @gatherer_card}
     render turbo_stream: turbo_stream.update(
       'card_search',
       partial: "gatherer_card",
@@ -53,7 +56,7 @@ class CardsController < ApplicationController
   def create
     @card = Card.new(card_params)
     if @card.save
-      redirect_to @card
+      redirect_to cards_path, notice: "Card was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

@@ -4,24 +4,15 @@
   </div>
   <div class="flex mb-4">
     <ul>
-      <li>Name: <%= @gatherer_card[:name] %></li>
+      <li>Name: <%= link_to @gatherer_card[:name], "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{@gatherer_card[:id]}", target: '_blank' %></li>
       <li>Rarity: <%= @gatherer_card[:rarity] %></li>
       <li>
-        Set: 
-        <% if @gatherer_card[:other_sets].any? %>
-          <select name="gatherer_set">
-            <option value="<%= @gatherer_card[:set] %>"><%= @gatherer_card[:set] %></option>
-            <% @gatherer_card[:other_sets].each do |set| %>
-              <option value="<%= set[:id] %>"><%= set[:description] %></option>
-            <% end %>
-          </select>
-        <% else %>
-          <%= @gatherer_card[:set] %>
-        <% end %>
+        Set: <%= @gatherer_card[:set][:id] %> <%= @gatherer_card[:set][:description] %>
       </li>
-      <li>Spell Type: <%= @gatherer_card[:creature] %></li>
+      <li>Spell Type: <%= @gatherer_card[:card_type] %></li>
     </ul>
   </div>
-  <div id="gatherer_card_saved">
-    <p>SAVED</p>
+  <div>
+    <%= link_to "Save Card", cards_path(@gatherer_card), method: :post, class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+    <%= link_to "Cancel", cards_path, class: "bg-gray-500 text-white px-4 py-2 rounded" %>
   </div>
