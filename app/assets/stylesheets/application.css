@@ -98,10 +98,10 @@
 
   #cards { padding: 0 10px; }
 
-  #card_collection_header { height: 20px; line-height: 20px; padding-bottom: 10px; }
-  #card_collection_header input { margin-right: 5px; }
+  #card_list_header { height: 20px; line-height: 20px; padding-bottom: 10px; }
+  #card_list_header input { margin-right: 5px; }
 
-  #card_collection {
+  #card_list {
     border-left: 1px solid #C1DAD7;
     border-collapse:collapse;
     width: 1000px;
@@ -110,7 +110,7 @@
     background-color: #fff;
   }
 
-  #card_collection th {
+  #card_list th {
     font: bold 10px/22px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
     color: #4f6b72;
     border-right: 1px solid #C1DAD7;
@@ -124,9 +124,9 @@
     vertical-align:middle;
   }
           
-  #card_collection tr { border-bottom: 1px solid gray; font-size: 12px; padding: 0 5px; }
+  #card_list tr { border-bottom: 1px solid gray; font-size: 12px; padding: 0 5px; }
 
-  #card_collection td {
+  #card_list td {
     font: normal 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
     border-right: 1px solid #C1DAD7;
     border-bottom: 1px solid #C1DAD7;
@@ -135,6 +135,6 @@
     text-align:center;
   }
 
-  #card_collection input { width: 50px; font-size: 8px; }
+  #card_list input { width: 50px; font-size: 8px; }
   .list_selected { background-color: #9BB385; }
   .list_hover { background-color: #FBF5D3; }

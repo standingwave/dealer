@@ -14,16 +14,17 @@ Rails.application.routes.draw do
     end
     collection do
       get ":gatherer_id/details", action: :details, as: :details
+      get "list", action: :list, as: :list
     end
   end
-  
+
   resources :card_sets
   resources :users
   resources :decks
 
   # Proxy requests to other servers
   get "proxy" => "proxy#index", as: :proxy
-  
+
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

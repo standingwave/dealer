@@ -1,10 +1,16 @@
 <p><%= link_to "Back", cards_path %></p>
 
-<section class="product">
-  <div>One day I'll be an image!</div>
-  <section class="product-info">
+<section class="card">
+  <div><%= image_tag @card.gatherer_image_url if @card.gatherer_image_url %></div>
+  <section class="card-info">
     <% cache @card do %>
       <h1><%= @card.name %></h1>
+      <p>Card Type: <%= @card.card_type %></p>
+      <p>Condition: <%= @card.condition %></p>
+      <p>Color: <%= @card.color %></p>
+      <p>Rarity: <%= @card.rarity %></p>
+      <p>Price: <%= @card.price %></p>
+      <p>Set: <%= @card.card_set_id %></p>
       <%= @card.description %>
     <% end %>
 

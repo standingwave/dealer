@@ -21,7 +21,7 @@
   </div>
   <div>
     <%= form.label :condition %>
-    <%= form.select :condition, Card::CONDITIONS.map { |condition| [condition.humanize, condition] } %>
+    <%= form.select :condition, Card::CONDITION.map { |condition| [condition.humanize, condition] } %>
   </div>
   <div>
     <%= form.hidden_field :price, value: 0.00 %>

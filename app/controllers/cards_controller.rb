@@ -4,12 +4,12 @@ class CardsController < ApplicationController
   before_action :set_card, only: %i[ show edit update destroy ]
 
   def details
-    require 'mechanize'
-      
+    require "mechanize"
+
     @gatherer_card = {}
 
     store = OpenSSL::X509::Store.new
-    store.add_file '/usr/local/etc/openssl@3/cert.pem'
+    store.add_file "/usr/local/etc/openssl@3/cert.pem"
     a = Mechanize.new
     a.verify_mode= OpenSSL::SSL::VERIFY_NONE
 
@@ -19,31 +19,40 @@ class CardsController < ApplicationController
 
     @gatherer_card[:id] = params[:gatherer_id]
     @gatherer_card[:image] = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=#{@gatherer_card[:id]}&type=card"
-    
+
     @gatherer_card[:name] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow > div.value").text
     @gatherer_card[:card_type] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow > .value").children.first.text
     @gatherer_card[:rarity] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow div.value span").children.first.text
+    @gatherer_card[:description] = page.css("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_textRow > div.value").map(&:text)
 
     set = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol > a").first
-    Rails.logger.info "set=#{set.inspect}"
-    @gatherer_card[:set] = { id: set.attr('href').split('=')[1], description: set.children.first.attr('title') }
-    
+    @gatherer_card[:set] = { id: set.attr("href").split("=")[1], description: set.children.first.attr("title") }
+
     # list of other sets this card has appeared in.
     #   the anchor has the id and the image within the anchor has the set name
     other_sets = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsValue > div a")
-    @gatherer_card[:other_sets] = other_sets.any? ? other_sets.collect{|s| { id: s.attr('href').split('=')[1], description: s.children.first.attr('title') } } : []
-    
+    @gatherer_card[:other_sets] = other_sets.any? ? other_sets.collect { |s| { id: s.attr("href").split("=")[1], description: s.children.first.attr("title") } } : []
+
     logger.info @gatherer_card.inspect
-    
+
     render turbo_stream: turbo_stream.update(
-      'card_search',
+      "card_search",
       partial: "gatherer_card",
-      locals: {gatherer_card: @gatherer_card}
+      locals: { gatherer_card: @gatherer_card }
     )
   end
 
   def index
     @cards = Card.all
+    respond_to do |format|
+      format.html
+      format.csv { send_data Card.to_csv, filename: "cards-#{DateTime.now.strftime("%d%m%Y%H%M")}.csv"}
+    end
+  end
+
+  def list
+    @cards = Card.all  # You might want to add pagination or filtering here
+    render partial: "cards/list"
   end
 
   def show
@@ -87,7 +96,7 @@ class CardsController < ApplicationController
         render turbo_stream: turbo_stream.update(
           helpers.dom_id(card, attribute),
           partial: "edit_attribute",
-          locals: {card:, attribute:}
+          locals: { card:, attribute: }
         )
       end
     end
@@ -104,7 +113,7 @@ class CardsController < ApplicationController
           render turbo_stream: turbo_stream.replace(
             attribute_id,
             partial: "attribute",
-            locals: {card:, attribute:}
+            locals: { card:, attribute: }
           )
         end
       else
@@ -133,6 +142,6 @@ class CardsController < ApplicationController
     end
 
     def card_params
-      params.expect(card: [ :card_type, :color, :condition, :description, :name, :price, :quantity, :rarity ])
+      params.expect(card: [ :card_type, :color, :condition, :description, :gatherer_id, :name, :price, :quantity, :rarity ])
     end
 end

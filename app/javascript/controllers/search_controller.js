@@ -24,7 +24,7 @@ export default class extends Controller {
         console.log(data);
         // response.body={"Results":[{"ID":"382866","Name":"Black Lotus","Group":null,"Snippet":"{T}, Sacrifice this artifact: Add three mana of any one color."}],"SearchCharacters":"black lotus"}
         if (data.Results.length === 0) {
-          this.searchResultsTarget.innerHTML = `<li class="search_result_item p-2">No results found.</li>`;
+          this.searchResultsTarget.innerHTML = `<li class="search_result_item p-2">No results found!</li>`;
         } else {
           this.searchResultsTarget.innerHTML = data.Results.map(card => `<li class="search_result_item p-2 hover:bg-gray-100 cursor-pointer"><a href="/cards/${card.ID}/details" data-turbo-stream="true">${card.Name}: ${card.Snippet}</a></li>`).join('');
         }

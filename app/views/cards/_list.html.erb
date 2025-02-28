@@ -1,0 +1,45 @@
+<%= turbo_frame_tag "card_content" do %>
+  <div id="controls" class="flex justify-between mb-4">
+    <div class="text-sm">
+      <button id="export_cards" class="bg-yellow-500 text-white px-4 py-2 rounded">Export Cards</button>
+      <button id="clear_filters" class="bg-gray-500 text-white px-4 py-2 rounded">Clear Filters</button>
+    </div>
+  </div>
+  <table id="card_list" class="table-auto w-full">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Condition</th>
+        <th>Description</th>
+        <th>Card Type</th>
+        <th>Color</th>
+        <th>Mana</th>
+        <th>Rarity</th>
+        <th>Price</th>
+        <th>Set</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cards.each do |card| %>
+        <tr>
+          <td><%= render "attribute", card:, attribute: :quantity %></td>
+          <td><%= card.name %></td>
+          <td><%= render "attribute", card:, attribute: :condition %></td>
+          <td><%= render "attribute", card:, attribute: :description %></td>
+          <td><%= render "attribute", card:, attribute: :card_type %></td>
+          <td><%= render "attribute", card:, attribute: :color %></td>
+          <td><%= card.mana %></td>
+          <td><%= render "attribute", card:, attribute: :rarity %></td>
+          <td><%= render "attribute", card:, attribute: :price %></td>
+          <td><%= card.card_set_id %></td>
+          <td>
+            <%= button_to "Delete", card, method: :delete, class:"btn btn-danger" %>
+            <%= link_to "View", card %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

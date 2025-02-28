@@ -1,8 +1,8 @@
 class ProxyController < ApplicationController
 
-# This controller is used to proxy requests to other servers.
-# It is used to get around the same-origin policy in browsers.
-# It is also used to get around the need for a CORS proxy.
+  # This controller is used to proxy requests to other servers.
+  # It is used to get around the same-origin policy in browsers.
+  # It is also used to get around the need for a CORS proxy.
 
   def index
     Rails.logger.info "PROXY: params=#{params.inspect}"
@@ -25,7 +25,7 @@ class ProxyController < ApplicationController
     render json: response.body
   end
 
-    private
+  private
     def get_url(uri_str, limit = 10)
       logger.info "get_url: url=#{uri_str}"
       require 'net/http'

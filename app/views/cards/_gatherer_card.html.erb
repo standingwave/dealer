@@ -11,8 +11,39 @@
       </li>
       <li>Spell Type: <%= @gatherer_card[:card_type] %></li>
     </ul>
+    <%= form_with model: Card.new do |form| %>
+      <div class="gap-4">
+        <%= form.hidden_field :id, value: @gatherer_card[:id] %>
+        <%= form.hidden_field :name, value: @gatherer_card[:name] %>
+        <%= form.hidden_field :gatherer_id, value: @gatherer_card[:id] %>
+        <%= form.hidden_field :card_type, value: @gatherer_card[:card_type] %>
+        <%= form.hidden_field :mana, value: @gatherer_card[:mana] %>
+        <%= form.hidden_field :card_set_id, value: @gatherer_card[:set][:id] %>
+        <%= form.hidden_field :rarity, value: @gatherer_card[:rarity] %>
+        
+        <div>
+          <%= form.label :condition %>
+          <%= form.select :condition, Card::CONDITION.map { |condition| [condition.humanize, condition] } %>
+        </div>
+        <div>
+        <%= form.label :color %>
+        <%= form.select :color, Card::COLOR.map { |color| [color.humanize, color] } %>
+        </div>
+        <div>
+        <%= form.label :price %>
+        <%= form.text_field :price, value: 0.00 %>
+        </div>
+        <div>
+        <%= form.label :quantity %>
+        <%= form.text_field :quantity, value: 1 %>
+        </div>
+        <div>
+        <%= form.text_field :description, value: @gatherer_card[:description] %>
+      </div>
+      <div>
+        <%= form.submit 'Save Card', class: "bg-blue-500 text-white px-4 py-2 rounded", data: { turbo_method: :post } %>
+      </div>
+      <%= link_to "Cancel", cards_path, class: "bg-gray-500 text-white px-4 py-2 rounded" %>
+    <% end %>
   </div>
-  <div>
-    <%= link_to "Save Card", cards_path(@gatherer_card), method: :post, class: "bg-blue-500 text-white px-4 py-2 rounded" %>
-    <%= link_to "Cancel", cards_path, class: "bg-gray-500 text-white px-4 py-2 rounded" %>
-  </div>
+  
