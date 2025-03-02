@@ -19,13 +19,19 @@ class CardsController < ApplicationController
     @gatherer_card[:rarity] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow div.value span").children.first.text
     @gatherer_card[:description] = page.css("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_textRow > div.value").map(&:text)
 
-    set = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol > a").first
-    @gatherer_card[:set] = { id: set.attr("href").split("=")[1], description: set.children.first.attr("title") }
-
     # list of other sets this card has appeared in.
     #   the anchor has the id and the image within the anchor has the set name
     other_sets = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsValue > div a")
     @gatherer_card[:other_sets] = other_sets.any? ? other_sets.collect { |s| { id: s.attr("href").split("=")[1], description: s.children.first.attr("title") } } : []
+    @gatherer_card[:other_sets].each do |set|
+      cs = CardSet.find_or_initialize_by name: set[:description]
+      if cs.new_record?
+        cs.gatherer_id = set[:id]
+        cs.save!
+      end
+    end
+    current_set = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_currentSetSymbol > a").first
+    @gatherer_card[:set] = { id: current_set.attr("href").split("=")[1], description: current_set.children.first.attr("title") }
 
     logger.info @gatherer_card.inspect
 
