@@ -33,7 +33,7 @@
           <td><%= card.mana %></td>
           <td><%= render "attribute", card:, attribute: :rarity %></td>
           <td><%= render "attribute", card:, attribute: :price %></td>
-          <td><%= card.card_set_id %></td>
+          <td><%= card.set_name %></td>
           <td>
             <%= button_to "Delete", card, method: :delete, class:"btn btn-danger" %>
             <%= link_to "View", card %>

@@ -1,7 +1,7 @@
 <%= tag.div id: dom_id(card, attribute) do %>
   <%= link_to edit_attribute_card_path(card, attribute:), data: {turbo_stream: true} do %>
     <% if card.attribute_names.include? attribute.to_s %>
-      <%= card.public_send(attribute) || Card.column_default(attribute) %>
+      <%= card.public_send(attribute).blank? ? "[empty]" :  card.public_send(attribute) %>
     <% else %>
       <%= render attribute.to_s, card: %>
     <% end %>

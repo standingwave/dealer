@@ -1,6 +1,0 @@
-<%= turbo_frame_tag dom_id(card) do %>
-  <%= form_with model: card, url: update_attribute_card_path(card, :card_type, format: :turbo_stream), method: :patch,
-          html: { data: { controller: "buttonless", cardId: card.id } } do |form| %>
-    <%= form.select :card_type, Card::CARD_TYPE.collect { |p| [p, p] } %>
-  <% end %>
-<% end %>
