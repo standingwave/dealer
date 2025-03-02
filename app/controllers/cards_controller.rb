@@ -6,19 +6,14 @@ class CardsController < ApplicationController
   def details
     require "mechanize"
 
-    @gatherer_card = {}
-    # store = OpenSSL::X509::Store.new
-    # store.add_file "/usr/local/etc/openssl@3/cert.pem"
-    # # a.cert_store = store
-
     a = Mechanize.new
     a.verify_mode= OpenSSL::SSL::VERIFY_NONE
 
+    @gatherer_card = {}
     page = a.get("https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{params[:gatherer_id]}")
 
     @gatherer_card[:id] = params[:gatherer_id]
     @gatherer_card[:image] = "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=#{@gatherer_card[:id]}&type=card"
-
     @gatherer_card[:name] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow > div.value").text
     @gatherer_card[:card_type] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow > .value").children.first.text
     @gatherer_card[:rarity] = page.search("#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_rarityRow div.value span").children.first.text
@@ -103,12 +98,11 @@ class CardsController < ApplicationController
 
   # PATCH  /cards/:id/update_attribute/:attribute
   def update_attribute
-    attribute = params[:attribute]
+    attribute = params[:attribute] == "card_set_id" ? "set_name" : params[:attribute]
     attribute_id = helpers.dom_id(card, attribute)
     respond_to do |format|
       if card.update(card_params)
         format.turbo_stream do
-          # render updated attribute
           render turbo_stream: turbo_stream.replace(
             attribute_id,
             partial: "attribute",
@@ -117,7 +111,6 @@ class CardsController < ApplicationController
         end
       else
         format.turbo_stream do
-          # render errors
           render turbo_stream: turbo_stream.append(
             attribute_id,
             html: (
@@ -141,6 +134,6 @@ class CardsController < ApplicationController
     end
 
     def card_params
-      params.expect(card: [ :card_type, :color, :condition, :description, :gatherer_id, :name, :price, :quantity, :rarity ])
+      params.expect(card: [ :card_set_id, :card_type, :color, :condition, :description, :gatherer_id, :name, :price, :quantity, :rarity ])
     end
 end

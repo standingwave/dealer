@@ -2,6 +2,8 @@
   <%= link_to edit_attribute_card_path(card, attribute:), data: {turbo_stream: true} do %>
     <% if card.attribute_names.include? attribute.to_s %>
       <%= card.public_send(attribute).blank? ? "[empty]" :  card.public_send(attribute) %>
+    <% elsif attribute.to_s == "set_name" %>
+      <%= card.set_name %>
     <% else %>
       <%= render attribute.to_s, card: %>
     <% end %>

@@ -8,8 +8,6 @@ class Card < ApplicationRecord
   delegate :name, to: :card_set, prefix: :set, allow_nil: true
 
   validates :name, :description, presence: true
-  # validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  # validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :condition, inclusion: { in: CONDITION }
 
   def self.column_default(attribute)

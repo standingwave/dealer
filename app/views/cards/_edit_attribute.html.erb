@@ -1,8 +1,8 @@
 <%= form_with model: card, url: update_attribute_card_path(card, attribute:) do |f| %>
-  <% if %w(card_type color rarity).include? attribute.to_s %>
-    <%= render "select_field", f:, attribute: %>
-  <% elsif "condition" == attribute %>
-    <%= render "select_field", f:, attribute: %>
+  <% if %w(card_type color condition rarity).include? attribute.to_s %>
+    <%= render "select_field", f:, attribute:, select_options: Card.const_get(attribute.upcase) %>
+  <% elsif attribute.to_s == "set_name" %>
+    <%= render "select_field", f:, attribute: "card_set_id", select_options: CardSet.all.reduce({}) { |h, cs| h[cs.name] = cs.id; h } %>
   <% else %>
     <%= f.text_field attribute %>
   <% end %>
