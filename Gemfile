@@ -67,3 +67,9 @@ gem "tailwindcss-rails", "~> 4.1"
 gem "rails_icons", "~> 1.1"
 
 gem "mechanize", "~> 2.14"
+
+gem "pry", "~> 0.15.2"
+
+gem "csv", "~> 3.3"
+
+gem "pry-rails", "~> 0.3.11"

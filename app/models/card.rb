@@ -4,6 +4,9 @@ class Card < ApplicationRecord
   CONDITION = %w[Mint Near-Mint Very-Good Good Played Damaged].freeze
   RARITY = %w[Rare Uncommon Common].freeze
 
+  belongs_to :card_set
+  delegate :name, to: :card_set, prefix: :set, allow_nil: true
+
   validates :name, :description, presence: true
   # validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   # validates :price, numericality: { greater_than_or_equal_to: 0 }
@@ -13,7 +16,7 @@ class Card < ApplicationRecord
     self.column_for_attribute(attribute).default
   end
 
-  require 'csv'
+  require "csv"
   def self.to_csv
     cards = all
     CSV.generate do |csv|

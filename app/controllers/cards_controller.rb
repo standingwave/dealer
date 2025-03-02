@@ -7,13 +7,12 @@ class CardsController < ApplicationController
     require "mechanize"
 
     @gatherer_card = {}
+    # store = OpenSSL::X509::Store.new
+    # store.add_file "/usr/local/etc/openssl@3/cert.pem"
+    # # a.cert_store = store
 
-    store = OpenSSL::X509::Store.new
-    store.add_file "/usr/local/etc/openssl@3/cert.pem"
     a = Mechanize.new
     a.verify_mode= OpenSSL::SSL::VERIFY_NONE
-
-    a.cert_store = store
 
     page = a.get("https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=#{params[:gatherer_id]}")
 
@@ -46,7 +45,7 @@ class CardsController < ApplicationController
     @cards = Card.all
     respond_to do |format|
       format.html
-      format.csv { send_data Card.to_csv, filename: "cards-#{DateTime.now.strftime("%d%m%Y%H%M")}.csv"}
+      format.csv { send_data Card.to_csv, filename: "cards-#{DateTime.now.strftime("%d%m%Y%H%M")}.csv" }
     end
   end
 
