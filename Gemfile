@@ -66,7 +66,7 @@ end
 
 gem "tailwindcss-rails", "~> 4.1"
 
-gem "rails_icons", "~> 1.1"
+gem "rails_icons", "~> 1.3"
 
 gem "mechanize", "~> 2.14"
 
